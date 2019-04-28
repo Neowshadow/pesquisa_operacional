@@ -1,0 +1,21 @@
+.fo .vd:after{
+	content : ' + ';
+}
+.fo .vd:last-child:after{
+	content : '.';
+}
+
+.res .vd:after{
+	content : ' + ';
+}
+.res .vd:nth-last-child(3):after{
+	content : '';
+}
+
+
+.res .result:before{
+	content : ' = ';
+}
+.res .result:after{
+	content : '.';
+}
