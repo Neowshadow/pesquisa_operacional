@@ -55,18 +55,28 @@ Funcao.prototype.addVariavel = function(nome,val){
 	return aux;
 }
 Funcao.prototype.removeVariavel = function(index){
-	if(this._variaveis.splice(index,1)!=undefined) return true;
+	if(this._variaveis.splice(index,1)!=[]) return true;
 	return false
 }
 Funcao.prototype.setNome = function(nome,index){
-	this.variaveis.forEach(function(item,idx){
-		if(idx===index) {item.nome = nome;}
-	});
+	this.variaveis[index].nome = nome;
 }
-Funcao.prototype.setValor = function(val,index){
-	this._variaveis[index].valor = val;
+Funcao.prototype.setValor = function(val,indexOuNome){
+	if(!isNaN(indexOuNome)){
+		if(indexOuNome<this._variaveis.length){
+			this._variaveis[indexOuNome].valor = val;
+			return true;
+		}
+	}
+	else for(i in this._variaveis){
+		if(this._variaveis[i].nome == indexOuNome){
+			this._variaveis[i].valor = val;
+			return true;
+		}
+	}
+	return false;
 }
-Funcao.prototype.check = function(){
+Funcao.prototype.check = function(){ //checagem utilizada durante a execução do algoritmo de simplex
 	var aux = false;
 	for(var i in this._variaveis){
 		if(this._variaveis[i].valor>0) aux = true;
@@ -126,8 +136,18 @@ Restricao.prototype.removeVariavel = function(index){
 Restricao.prototype.setNomeVariavel = function(nome,index){
 	this.variaveis[index].nome=nome;
 }
-Restricao.prototype.setValor = function(val,index){
-	this._variaveis[index].valor = Number(val);
+Restricao.prototype.setValor = function(val,indexOuNome){
+	if(!isNaN(indexOuNome)){
+		if(indexOuNome < this._variaveis.length)
+			this._variaveis[indexOuNome].valor = Number(val);
+	}
+	else for(i in this._variaveis){
+		if(this._variaveis[i].nome == indexOuNome){
+			this._variaveis[i].valor = val;
+			return true;
+		}
+	}
+	return false;
 }
 //////////////////////////////////////////////
 
@@ -145,10 +165,14 @@ class Simplex{
 		this._maxIteracao = val;
 	}
 }
-Simplex.prototype.addRestricao = function(){
+Simplex.prototype.addRestricao = function(...args){
 	var aux = new Restricao(this.funcao.variaveis);
 	this.restricoes.push(aux);
 	for(i in arguments){
+		if(i==this.funcao.variaveis.length){
+			aux.result = arguments[i];
+			break;
+		}
 		aux.setValor(arguments[i],i);
 	}
 	return aux;
@@ -158,18 +182,35 @@ Simplex.prototype.removeRestricao = function(idx){
 	return aux[0] instanceof Restricao;
 }
 Simplex.prototype.addVariavel = function(nome,val){
-	this.restricoes.forEach(function(item,idx){
-		item.addVariavel(nome);
-	});
-	return this.funcao.addVariavel(nome,val);
-}
-Simplex.prototype.removeVariavel = function(idx){
-	if(Number(idx)<this.funcao._variaveis.length){
-		this.funcao.removeVariavel(Number(idx));
-		this.restricoes.forEach(function(item){
-			item.removeVariavel(Number(idx));
+	if(this.funcao.addVariavel(nome,val)){
+		this.restricoes.forEach(function(item,idx){
+			item.addVariavel(nome);
 		});
+		return true;
 	}
+	return false;
+}
+Simplex.prototype.removeVariavel = function(idxOuNome){
+	var aux = idxOuNome;
+	if(Number(aux)<this.funcao.variaveis.length){
+		if(this.funcao.removeVariavel(Number(aux))){
+			this.restricoes.forEach(function(item){
+				item.removeVariavel(Number(aux));
+			});
+			return true;
+		}
+	}else{
+		for(var i in this.funcao.variaveis){
+			if(this.funcao.variaveis[i].nome==aux){
+				this.funcao.removeVariavel(i);
+				this.restricoes.forEach(function(item){
+					item.removeVariavel(i);
+				});
+				return true;
+			}
+		}
+	}
+	return false;
 }
 Simplex.prototype.setNomeVariavel = function(nome,idx){
 	this.funcao.setNome(nome,idx);
@@ -177,16 +218,22 @@ Simplex.prototype.setNomeVariavel = function(nome,idx){
 		this.restricoes[item].setNomeVariavel(nome,idx);
 	}
 }
-Simplex.prototype.setValorVariavelFuncao = function(val,idx){
-	this.funcao.setValor(val,idx);
+Simplex.prototype.setValorVariavelFuncao = function(val,idxOuNome){
+	return this.funcao.setValor(val,idxOuNome);
 }
-Simplex.prototype.setValorVariavelRestricao = function(val,idx,rest){
-	if(rest<this.restricoes.length)
-		this.restricoes[rest].setValor(val,idx);
-}
-Simplex.prototype.setResultRestricao = function(val,rest){
+/*Simplex.prototype.setValorVariavelRestricao = function(val,idxOuNome,rest){
+	return this.restricoes[rest].setValor(val,idxOuNome);
+}*/
+/*Simplex.prototype.setResultRestricao = function(val,rest){
 	if(rest<this.restricoes.length)
 		this.restricoes[rest].result = val;
+}*/
+Simplex.prototype.setRestricao = function(index,result,...rest){
+	var aux = 0;
+	for(let i of rest){
+		this.restricoes[index].setValor(i,aux++);
+	}
+	this.restricoes[index].result = result;
 }
 Simplex.prototype.execute = function(iteracao,opcao){
 	var fo = this.funcao;
@@ -377,18 +424,20 @@ function updateRestricao(restricao,idx){
 	s.addVariavel('x2',6);
 	s.addVariavel('x3',4);
 	
-	s.setResultRestricao(100,0);
+	// s.setResultRestricao(100,0);
 	s.addRestricao();
-	s.setValorVariavelRestricao(10,0,1);
-	s.setValorVariavelRestricao(4,1,1);
-	s.setValorVariavelRestricao(5,2,1);
-	s.setResultRestricao(600,1);
+	// s.setValorVariavelRestricao(10,0,1);
+	// s.setValorVariavelRestricao(4,1,1);
+	// s.setValorVariavelRestricao(5,2,1);
+	// s.setResultRestricao(600,1);
 	s.addRestricao();
-	s.setValorVariavelRestricao(2,0,2);
-	s.setValorVariavelRestricao(2,1,2);
-	s.setValorVariavelRestricao(6,2,2);
-	s.setResultRestricao(300,2);
-
+	// s.setValorVariavelRestricao(2,0,2);
+	// s.setValorVariavelRestricao(2,1,2);
+	// s.setValorVariavelRestricao(6,2,2);
+	// s.setResultRestricao(300,2);
+	s.setRestricao(0,100,1,1,1);
+	s.setRestricao(1,600,10,4,5);
+	s.setRestricao(2,300,2,2,6);
 	
 //apresenta valores definidos acima nas divs
 	document.getElementById('test').innerText = 'Z = ';
