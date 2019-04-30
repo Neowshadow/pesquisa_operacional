@@ -1,20 +1,21 @@
 # Projeto Simplex
 
-##Classe Simplex:
+## Classe Simplex:
+ ... - n parametros
+ 
+addRestricao(...) //parametros opcionais. Pode-se iniciar uma restrição com valores do multiplicando de acordo com a ordem dos parametros. Se houver uma quantidade de parametros igual à quantidade de variaveis + 1(do resultado), atribui ao resultado o ultimo parametro. Retorna um objeto de Restricao.
+Exemplo: addRestricao(5,7,1,90) -- nova Restricao -> 5 x1 + 7 x2 + 1 x3 <= 90
 
-	###Métodos:
-	
-		addRestricao(...) //parametros opcionais. Pode-se iniciar uma restrição com valores do multiplicando de acordo com a ordem dos parametros. Se houver uma quantidade de parametros igual à quantidade de variaveis + 1(do resultado), atribui ao resultado o ultimo parametro. Retorna um objeto de Restricao.
-		
-		removeRestricao(index) //remove a Restricao no index indicado. Retorna TRUE ou FALSE
-		
-		setRestricao(index,resultado,...) //atribui à restrição no index indicado o resultado e nas variaveis dela, os valores parametrizados. Exemplo: setRestricao(0,100,1,5,6) -- Restricao[0] -> 1 x1 + 5 x2 + 6 x3 <= 100
-		
-		addVariavel(nome,val) //cria uma variavel na função e em todas restrições. Parametro val opcional (valor da variavel é 0 por padrão). Retorna TRUE ou FALSE
-		
-		removeVariavel(index ou nome) //remove a variavel do index (ou de nome) indicado na função e nas restrições.
-		
-		setNomeVariavel(nome,index) //atribui à variavel do index indicado na função e nas restrições o nome parametrizado
-		
-		setValorVariavelFuncao(valor, index ou nome) //atribui à variavel do index ou do nome indicado o valor parametrizado
-		
+removeRestricao(index) //remove a Restricao no index indicado. Retorna TRUE ou FALSE
+
+setRestricao(index,...) //atribui à restrição no index indicado, o resultado e as variaveis recebem os valores.
+Exemplo: setRestricao(0,1,5,6,100) -- Restricao[0] -> 1 x1 + 5 x2 + 6 x3 <= 100
+
+addVariavel(nome,val) //cria uma variavel na função e em todas restrições. Parametro val opcional (valor da variavel é 0 por padrão). Retorna TRUE ou FALSE
+
+removeVariavel(index ou nome) //remove a variavel do index (ou de nome) indicado na função e nas restrições. Retorna TRUE ou FALSE
+
+setNomeVariavel(nome,index) //atribui à variavel do index indicado na função e nas restrições o nome
+
+setFuncao(...) //atribui às variaveis da função objetiva os valores passados nos parametros.
+Exemplo: setFuncao(3,4,1) -- Z = 3 x1 + 4 x2 + 1 x3

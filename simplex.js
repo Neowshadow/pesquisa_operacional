@@ -221,19 +221,29 @@ Simplex.prototype.setNomeVariavel = function(nome,idx){
 Simplex.prototype.setValorVariavelFuncao = function(val,idxOuNome){
 	return this.funcao.setValor(val,idxOuNome);
 }
-/*Simplex.prototype.setValorVariavelRestricao = function(val,idxOuNome,rest){
+Simplex.prototype.setFuncao = function(...args){
+	var aux = 0;
+	for(let i of args){
+		this.funcao.variaveis[aux++].valor = i;
+		if(aux==this.funcao.variaveis.length) break;
+	}
+}
+Simplex.prototype.setValorVariavelRestricao = function(val,idxOuNome,rest){
 	return this.restricoes[rest].setValor(val,idxOuNome);
-}*/
-/*Simplex.prototype.setResultRestricao = function(val,rest){
+}
+Simplex.prototype.setResultRestricao = function(val,rest){
 	if(rest<this.restricoes.length)
 		this.restricoes[rest].result = val;
-}*/
-Simplex.prototype.setRestricao = function(index,result,...rest){
+}
+Simplex.prototype.setRestricao = function(index,...rest){
 	var aux = 0;
 	for(let i of rest){
+		if(aux==this.funcao.variaveis.length){
+			this.restricoes[index].result = i;
+			break;
+		}
 		this.restricoes[index].setValor(i,aux++);
 	}
-	this.restricoes[index].result = result;
 }
 Simplex.prototype.execute = function(iteracao,opcao){
 	var fo = this.funcao;
@@ -435,9 +445,9 @@ function updateRestricao(restricao,idx){
 	// s.setValorVariavelRestricao(2,1,2);
 	// s.setValorVariavelRestricao(6,2,2);
 	// s.setResultRestricao(300,2);
-	s.setRestricao(0,100,1,1,1);
-	s.setRestricao(1,600,10,4,5);
-	s.setRestricao(2,300,2,2,6);
+	s.setRestricao(0,1,1,1,100);
+	s.setRestricao(1,10,4,5,600);
+	s.setRestricao(2,2,2,6,300);
 	
 //apresenta valores definidos acima nas divs
 	document.getElementById('test').innerText = 'Z = ';
