@@ -2,12 +2,11 @@
 class Variavel{
 	constructor(nome,valor){
 		this._nome = nome;
-		if(valor==undefined)
-			this._valor = 1;
-		else if(typeof valor == "number")
+		if(typeof valor == "number")
 			this._valor = valor;
+		else
+			this._valor = 0;
 	}
-	
 	get nome(){
 		return this._nome;
 	}
@@ -32,15 +31,13 @@ class Funcao{
 		this._variaveis = new Array(new Variavel('x1'));
 		this._result = 0;
 	}
-	
 	get variaveis(){
 		return this._variaveis;
 	}
-	set variaveis(funcao){
-		this._variaveis = funcao;
-	}
 	set result(val){
-		this._result = val;
+		if(!isNaN(Number(val))){
+			this._result = Number(val);
+		}
 	}
 	get result(){
 		return this._result;
@@ -51,11 +48,15 @@ Funcao.prototype.addVariavel = function(nome,val){
 	this._variaveis.forEach(function(item){
 		if(nome === item.nome) safeToaddVariavel = false;
 	});
-	if(safeToaddVariavel) this._variaveis.push(new Variavel(nome,val));
-	return safeToaddVariavel;
+	if(safeToaddVariavel){
+		var aux = new Variavel(nome,val);
+		this._variaveis.push(aux);
+	}
+	return aux;
 }
 Funcao.prototype.removeVariavel = function(index){
-	return this._variaveis.splice(index,1);
+	if(this._variaveis.splice(index,1)!=undefined) return true;
+	return false
 }
 Funcao.prototype.setNome = function(nome,index){
 	this.variaveis.forEach(function(item,idx){
@@ -78,13 +79,13 @@ Funcao.prototype.check = function(){
 class Restricao{
 	constructor(vars,result){
 		this._variaveis = [];
-		if(vars != undefined){
-			vars.forEach(function(item,idx){
-				this._variaveis.push(new Variavel(item.nome,1));
-			}.bind(this));
-		}
 		this._result = result || 0;
 		this._nome = '';
+		if(vars != undefined){
+			vars.forEach(function(item,idx){
+				this._variaveis.push(new Variavel(item.nome));
+			}.bind(this));
+		}
 	}
 	get variaveis(){
 		return this._variaveis;
@@ -92,10 +93,12 @@ class Restricao{
 	get restricoes(){
 		return this._result;
 	}
-	
 	set result(val){
-		if(typeof val == 'number')
-			this._result = val;
+		if(!isNaN(Number(val))){
+			this._result = Number(val);
+			return true
+		}
+		return false;
 	}
 	get result(){
 		return this._result;
@@ -143,17 +146,22 @@ class Simplex{
 	}
 }
 Simplex.prototype.addRestricao = function(){
-	//var aux = new Restricao(this.funcao.variaveis);
-	this.restricoes.push(new Restricao(this.funcao.variaveis));
+	var aux = new Restricao(this.funcao.variaveis);
+	this.restricoes.push(aux);
+	for(i in arguments){
+		aux.setValor(arguments[i],i);
+	}
+	return aux;
 }
 Simplex.prototype.removeRestricao = function(idx){
 	var aux = this.restricoes.splice(idx,1);
+	return aux[0] instanceof Restricao;
 }
 Simplex.prototype.addVariavel = function(nome,val){
-	this.funcao.addVariavel(nome,val);
 	this.restricoes.forEach(function(item,idx){
 		item.addVariavel(nome);
 	});
+	return this.funcao.addVariavel(nome,val);
 }
 Simplex.prototype.removeVariavel = function(idx){
 	if(Number(idx)<this.funcao._variaveis.length){
@@ -201,7 +209,7 @@ Simplex.prototype.execute = function(iteracao,opcao){
 		re[item].setValor(1,re[item].variaveis.length-1);
 	}
 	for(;iteracao>0 && fo.check();iteracao--){
-		console.log('passo 2');
+	//console.log('passo 2');
 	//segundo passo - da funcao objetiva, pegar a variavel de maior valor (apresentando na tabela como valor negativo)
 	var highest = 0;
 	var coluna = -1;
@@ -263,7 +271,7 @@ Simplex.prototype.execute = function(iteracao,opcao){
 function btnAddRestricao(){
 	var restricao = s.addRestricao();
 	//console.log(s);
-	btnUpdateRestricao(restricao,s.restricoes.length-1);
+	updateRestricao(restricao,s.restricoes.length-1);
 }
 function btnRemoveRestricao(val){
 	s.removeRestricao(val);
@@ -322,7 +330,7 @@ function btnExecute(){
 	row.appendChild(cell);
 }
 
-function btnUpdateRestricao(restricao,idx){
+function updateRestricao(restricao,idx){
 	var line = document.createElement('div');
 		line.className='res';
 		line.id='f'+idx+1;
@@ -392,4 +400,4 @@ function btnUpdateRestricao(restricao,idx){
 	});
 	
 
-	s.restricoes.forEach(btnUpdateRestricao);
+	s.restricoes.forEach(updateRestricao);
