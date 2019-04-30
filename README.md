@@ -1,7 +1,9 @@
 # Projeto Simplex
 
 ##Classe Simplex:
+
 	###Métodos:
+	
 		addRestricao(...) //parametros opcionais. Pode-se iniciar uma restrição com valores do multiplicando de acordo com a ordem dos parametros. Se houver uma quantidade de parametros igual à quantidade de variaveis + 1(do resultado), atribui ao resultado o ultimo parametro. Retorna um objeto de Restricao.
 		
 		removeRestricao(index) //remove a Restricao no index indicado. Retorna TRUE ou FALSE
