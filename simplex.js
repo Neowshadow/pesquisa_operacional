@@ -262,7 +262,7 @@ Simplex.prototype.execute = function(iteracao,opcao){
 		display['inicio']['z']+=fo.variaveis[item].valor+fo.variaveis[item].nome;
 		if(item<fo.variaveis.length-1) display['inicio']['z']+= ' + ';
 	}
-	display['inicio'].restricoes = {};
+	display['inicio'].restricoes = [];
 	var inicio = display.inicio;
 	for(var linha in re){
 		var antes = {};
@@ -339,7 +339,7 @@ Simplex.prototype.execute = function(iteracao,opcao){
 		}
 	}
 	if(linha == -1) break;
-	console.log(display.iteracao);
+	// console.log(display.iteracao);
 	display.iteracao[count-1].pivo = {'linha':re[linha].nome,'coluna':re[linha].variaveis[coluna].nome};
 	var pivo = re[linha].variaveis[coluna].valor;
 	//variavel da linha do pivo sai da base e entra a variavel da coluna do pivo
@@ -386,7 +386,7 @@ Simplex.prototype.execute = function(iteracao,opcao){
 	}
 	tabela[tabela.length-1].b = fo.result;
 	
-	console.log(display);
+	//console.log(display);
 	
 	// retorna para segundo passo
 	}

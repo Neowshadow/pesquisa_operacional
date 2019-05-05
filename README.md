@@ -20,4 +20,4 @@ setNomeVariavel(nome,index) //atribui à variavel do index indicado na função e n
 setFuncao(...) //atribui às variaveis da função objetiva os valores passados nos parametros.
 Exemplo: setFuncao(3,4,1) -- Z = 3 x1 + 4 x2 + 1 x3
 
-execute(numero maximo de iteracoes , minimizar) // opcao por padrão é maximizar, colocar true (ou 0) no segundo parametro para minimizar. Retorna um objeto com todos as tabelas
+execute(numero maximo de iteracoes , minimizar) // opcao por padrão é maximizar, colocar true (ou 0) no segundo parametro para minimizar. Retorna um objeto com todos as tabelas e passos.
