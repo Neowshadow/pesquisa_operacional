@@ -23,8 +23,6 @@ class Variavel{
 };
 //////////////////////////////////////////////
 
-
-
 //////////////////Funcao//////////////////////
 class Funcao{
 	constructor(){
@@ -248,24 +246,75 @@ Simplex.prototype.setRestricao = function(index,...rest){
 Simplex.prototype.execute = function(iteracao,opcao){
 	var fo = this.funcao;
 	var re = this.restricoes;
+	var display = {};
 	if(typeof iteracao == 'number')
 		fo.maxIteracao = iteracao;
-	if(opcao == 1){
+	if(opcao){
 		fo.variaveis.forEach(function(item){
 			item.valor = -item.valor;
 		});
 	}
 	
+	//display inicial, mostrando funcao objetiva e restricoes
+	display['inicio'] = {};
+	display['inicio']['z'] = '';
+	for(var item in fo.variaveis){
+		display['inicio']['z']+=fo.variaveis[item].valor+fo.variaveis[item].nome;
+		if(item<fo.variaveis.length-1) display['inicio']['z']+= ' + ';
+	}
+	display['inicio'].restricoes = {};
+	var inicio = display.inicio;
+	for(var linha in re){
+		var antes = {};
+		var depois = {};
+		inicio.restricoes[linha] = {};
+		re[linha].variaveis.forEach(function (item,index){
+			antes[item.nome] = item.valor;
+			depois[item.nome] = item.valor;
+		});
+		antes.result = re[linha].result;
+		inicio.restricoes[linha].antes = antes;
+		inicio.restricoes[linha].depois = depois;
+	}
+	
+	// console.log(display);
+	
 	//primeiro passo - adicionar variaveis de folga.
 	for(var item in re){
+		var displayRestricao = inicio.restricoes[item];
 		fo.addVariavel('F'+item,0);
 		for(var aux in re){
 			re[aux].addVariavel('F'+item,0);
 		}
 		re[item].nome='F'+item;
-		re[item].setValor(1,re[item].variaveis.length-1);
+		var pos = re[item].variaveis.length-1;
+		re[item].setValor(1,pos);
+		displayRestricao.depois[re[item].nome]=re[item].variaveis[pos].valor;
+		displayRestricao.depois.result = re[item].result;
 	}
-	for(;iteracao>0 && fo.check();iteracao--){
+	
+	display.iteracao = []
+	display.iteracao[0] = {tabela:[],pivo:{}};
+	var tabela = display.iteracao[0].tabela;
+	for(var i in re){
+		var linha = re[i];
+		tabela[i] = {};
+		tabela[i].base = linha.nome;
+		for(var item in linha.variaveis){
+			tabela[i][linha.variaveis[item].nome] = linha.variaveis[item].valor;
+		}
+		tabela[i].b = linha.result;
+	}
+	tabela.push({});
+	tabela[tabela.length-1].base = 'Z';
+	for(var item in fo.variaveis){
+		tabela[tabela.length-1][fo.variaveis[item].nome]= 0-(fo.variaveis[item].valor);
+	}
+	tabela[tabela.length-1].b = fo.result;
+	
+	
+	
+	for(var count = 1;iteracao>0 && fo.check();iteracao--,count++){
 	//console.log('passo 2');
 	//segundo passo - da funcao objetiva, pegar a variavel de maior valor (apresentando na tabela como valor negativo)
 	var highest = 0;
@@ -289,7 +338,9 @@ Simplex.prototype.execute = function(iteracao,opcao){
 			linha = item;
 		}
 	}
-	if(linha == -1) return;
+	if(linha == -1) break;
+	console.log(display.iteracao);
+	display.iteracao[count-1].pivo = {'linha':re[linha].nome,'coluna':re[linha].variaveis[coluna].nome};
 	var pivo = re[linha].variaveis[coluna].valor;
 	//variavel da linha do pivo sai da base e entra a variavel da coluna do pivo
 	re[linha].nome = re[linha].variaveis[coluna].nome;
@@ -317,9 +368,30 @@ Simplex.prototype.execute = function(iteracao,opcao){
 	}
 	fo.result -= re[linha].result*val;
 	
+	//gerando tabela
+	display.iteracao[count] = {tabela:[],pivo:{}};
+	tabela = display.iteracao[count].tabela;
+	for(var i in re){
+		var linha = re[i];
+		tabela[i] = {};
+		tabela[i].base = linha.nome;
+		for(var item in linha.variaveis){
+			tabela[i][linha.variaveis[item].nome] = linha.variaveis[item].valor;
+		}
+	}
+	tabela.push({});
+	tabela[tabela.length-1].base = 'Z';
+	for(var item in fo.variaveis){
+		tabela[tabela.length-1][fo.variaveis[item].nome]= 0	-(fo.variaveis[item].valor);
+	}
+	tabela[tabela.length-1].b = fo.result;
+	
+	console.log(display);
+	
 	// retorna para segundo passo
 	}
 	}
+	return display;
 }
 //////////////////////////////////////////////
 
@@ -336,7 +408,7 @@ function btnRemoveRestricao(val){
 }
 function btnExecute(){
 	//executa o metodo simplex com no maximo x iterações
-	s.execute(100);
+	res = s.execute(100);
 	//console.log(s);
 	
 	//geracao da tabela
