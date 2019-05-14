@@ -357,7 +357,7 @@
 				}
 			});
 			row.append($('<td>',{'text':b}));
-			if(b==0){
+			//if(b==0){
 				var val = result.iteracao[i].tabela[result.iteracao[i].tabela.length-1][obj];
 				<!-- console.log(result.iteracao[i].tabela[result.iteracao[i].tabela.length]); -->
 				row.append($('<td>',{'text':val}));
@@ -369,15 +369,24 @@
 						if(-(item.b/item[obj])<0 && -(item.b/item[obj])<min) min = item.b/item[obj];
 					}
 				});
-				row.append($('<td>',{'text':max}));
-				row.append($('<td>',{'text':min}));
-			}else{
-				row.append($('<td>',{'text':0}));
-				row.append($('<td>',{'text':'INFINITO'}));
-				row.append($('<td>',{'text':b}));
-			}
+				if(max!=0)
+					row.append($('<td>',{'text':max}));
+				else
+					row.append($('<td>',{'text':Infinity}));
+				if(min!=0)
+					row.append($('<td>',{'text':min}));
+				else
+					row.append($('<td>',{'text':Infinity}));
 			body.append(row);
 		});
+		var row = $('<tr>',{'id':'Z_'});
+		row.append($('<td>',{'text':'Z'}));
+		row.append($('<td>',{'text':result.iteracao[0].tabela[result.iteracao[0].tabela.length-1].b}));
+		row.append($('<td>',{'text':result.iteracao[i].tabela[result.iteracao[0].tabela.length-1].b}));
+		row.append($('<td>'));
+		row.append($('<td>'));
+		row.append($('<td>'));
+		body.append(row);
 		$('table#tbAnalise').append(body);
 		$('html, body').animate({
 			scrollTop: ($('#tbAnalise').offset().top)
