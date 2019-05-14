@@ -2,10 +2,11 @@
 class Variavel{
 	constructor(nome,valor){
 		this._nome = nome;
-		if(typeof valor == "number")
+		this._valor = Number(valor);
+		/*if(typeof valor == "number")
 			this._valor = valor;
 		else
-			this._valor = 0;
+			this._valor = 0;*/
 	}
 	get nome(){
 		return this._nome;
@@ -26,7 +27,7 @@ class Variavel{
 //////////////////Funcao//////////////////////
 class Funcao{
 	constructor(){
-		this._variaveis = new Array(new Variavel('x1'));
+		this._variaveis = new Array();//new Variavel('x1'));
 		this._result = 0;
 	}
 	get variaveis(){
@@ -153,7 +154,7 @@ Restricao.prototype.setValor = function(val,indexOuNome){
 class Simplex{
 	constructor(){
 		this.funcao = new Funcao();
-		this.restricoes = [new Restricao(this.funcao.variaveis)];
+		this.restricoes = [];//new Restricao(this.funcao.variaveis)];
 		this._maxIteracao = 10;
 	}
 	get maxIteracao(){
@@ -257,10 +258,13 @@ Simplex.prototype.execute = function(iteracao,opcao){
 	
 	//display inicial, mostrando funcao objetiva e restricoes
 	display['inicio'] = {};
+	display['variaveis_basicas'] = [];
+	display['variaveis_folga'] = [];
 	display['inicio']['z'] = '';
 	for(var item in fo.variaveis){
 		display['inicio']['z']+=fo.variaveis[item].valor+fo.variaveis[item].nome;
 		if(item<fo.variaveis.length-1) display['inicio']['z']+= ' + ';
+		display['variaveis_basicas'].push(fo.variaveis[item].nome);
 	}
 	display['inicio'].restricoes = [];
 	var inicio = display.inicio;
@@ -282,15 +286,16 @@ Simplex.prototype.execute = function(iteracao,opcao){
 	//primeiro passo - adicionar variaveis de folga.
 	for(var item in re){
 		var displayRestricao = inicio.restricoes[item];
-		fo.addVariavel('F'+item,0);
+		fo.addVariavel('F'+(Number(item)+1),0);
 		for(var aux in re){
-			re[aux].addVariavel('F'+item,0);
+			re[aux].addVariavel('F'+(Number(item)+1),0);
 		}
-		re[item].nome='F'+item;
+		re[item].nome='F'+(Number(item)+1);
 		var pos = re[item].variaveis.length-1;
 		re[item].setValor(1,pos);
 		displayRestricao.depois[re[item].nome]=re[item].variaveis[pos].valor;
 		displayRestricao.depois.result = re[item].result;
+		display['variaveis_folga'].push(re[item].nome);
 	}
 	
 	display.iteracao = []
@@ -378,13 +383,14 @@ Simplex.prototype.execute = function(iteracao,opcao){
 		for(var item in linha.variaveis){
 			tabela[i][linha.variaveis[item].nome] = linha.variaveis[item].valor;
 		}
+		tabela[i].b = linha.result;
 	}
 	tabela.push({});
 	tabela[tabela.length-1].base = 'Z';
 	for(var item in fo.variaveis){
 		tabela[tabela.length-1][fo.variaveis[item].nome]= 0	-(fo.variaveis[item].valor);
 	}
-	tabela[tabela.length-1].b = fo.result;
+	tabela[tabela.length-1].b = -fo.result;
 	
 	//console.log(display);
 	
@@ -396,7 +402,7 @@ Simplex.prototype.execute = function(iteracao,opcao){
 //////////////////////////////////////////////
 
 
-
+/*
 function btnAddRestricao(){
 	var restricao = s.addRestricao();
 	//console.log(s);
@@ -498,7 +504,7 @@ function updateRestricao(restricao,idx){
 	s.setValorVariavelRestricao(5,0,1);
 	s.setValorVariavelRestricao(2,1,1);
 	s.setResultRestricao(10000,0);
-	s.setResultRestricao(30000,1);*/
+	s.setResultRestricao(30000,1);/
 	
 	
 // teste 2
@@ -532,3 +538,4 @@ function updateRestricao(restricao,idx){
 	
 
 	s.restricoes.forEach(updateRestricao);
+*/
