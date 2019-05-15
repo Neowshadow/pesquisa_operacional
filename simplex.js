@@ -258,6 +258,7 @@ Simplex.prototype.execute = function(iteracao,opcao){
 	
 	//display inicial, mostrando funcao objetiva e restricoes
 	display['inicio'] = {};
+	display.minmax = opcao;
 	display['variaveis_basicas'] = [];
 	display['variaveis_folga'] = [];
 	display['inicio']['z'] = '';

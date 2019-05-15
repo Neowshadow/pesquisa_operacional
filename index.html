@@ -198,16 +198,56 @@
 		$('#btnProx').remove();
 		$('#btnAnte').remove();
 		$('#btnAnalise').remove();
-		resultado(0,s);
+		var check = resultado(0,s);
 		$('#card-result').show();
 		$('#divAnalise').hide();
 		$('html, body').animate({
 			scrollTop: ($('#final').offset().top)
 		},1000);
+		$('#btnSolu').remove();
+		if(result.iteracao.length>1 && check){
+			var bt = $('<button>',{'text':'Solução Direta','id':'btnSolu','class':'btn btn-primary float-right'}).bind('click',function(){
+				$('#btnAnte').remove();
+				$('#btnProx').remove();
+				$('#btnAnalise').remove();			
+				resultado(result.iteracao.length-1,s);
+			});
+			$('.card-header').append(bt);
+		}
 	}
 	function resultado(i,s){
+		var check = false;
 		$('#inicio').children().remove();
+		$('#final').empty();
 		$('table#tbResolucao').text('');
+		var test = result.iteracao[result.iteracao.length-1].tabela[result.iteracao[0].tabela.length-1];
+		for(aux in result.iteracao[result.iteracao.length-1].tabela[result.iteracao[0].tabela.length-1]){
+			if(aux!='b' && aux!='base'){
+				if(test[aux]<0) check = true;
+			}
+		}
+		if(check){
+			var ilimitada = $('<p>').append($('<b>').text('Solução Ilimitada'));
+			$('#inicio').append(ilimitada);
+			var head = $('<thead>',{'id':'thResolucao'});
+			for(k in result.iteracao[0].tabela[0]){
+				head.append($('<th>').text(k));
+			}
+			$('table#tbResolucao').append(head);
+			var body = $('<tbody>');
+			result.iteracao[0].tabela.forEach(function(obj,idx){
+				var row = $('<tr>');
+				<!-- console.log(idx,obj); -->
+				body.append(row);
+				for(k in obj){
+					row.append($('<td>').text(obj[k]));
+				}
+				
+			});
+			$('table#tbResolucao').append(body);
+			return false;
+		}
+		else {
 		if(i==0){
 			var funcao = $('<p>').append($('<b>').text('Z = '+result.inicio.z));
 			$('#inicio').append(funcao);
@@ -288,8 +328,11 @@
 					}
 				});
 				$('#divResolucao').append(center.append(btnAnalise));
-
-				$('#final').append($('<p>').append(document.createTextNode('Solução ótima é Z = '+(-s.funcao.result))));
+				
+				if(result.minmax)
+					$('#final').append($('<p>').append(document.createTextNode('Solução ótima é Z = '+(s.funcao.result))));
+				else
+					$('#final').append($('<p>').append(document.createTextNode('Solução ótima é Z = '+(-s.funcao.result))));
 				result.variaveis_basicas.forEach(function(obj,idx){
 					var b = 0;
 					result.iteracao[i].tabela.forEach(function(item,idx){
@@ -319,6 +362,8 @@
 			scrollTop: ($('#final').offset().top)
 		},1000);
 		<!-- console.log(1); -->
+		return true;
+		}
 	}
 	
 	function analise(i){
