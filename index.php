@@ -28,10 +28,10 @@
 	</div>
 	<hr>
 	<div>
-		<div class='row'><h3>Restrições</h3></div>
+		<div class='row'><h3>Restricoes</h3></div>
 
-		<button class='btn btn-primary' onclick='addRestricao()'>Adicionar Restrição</button>
-		<button class='btn btn-primary'onclick='removeRestricao()'>Remover Restrição</button>
+		<button class='btn btn-primary' onclick='addRestricao()'>Adicionar Restricao</button>
+		<button class='btn btn-primary'onclick='removeRestricao()'>Remover Restricao</button>
 
 		<div id='restricoes' class='res row' style='padding:10px'>
 			<div class='restricao row'>
@@ -65,7 +65,7 @@
 	<div class='row'>
 	<div class="input-group mb-1 col-3">
 		<div class="input-group-prepend">
-			<span class="input-group-text">Máximo de Iterações</span>
+			<span class="input-group-text">Maximo de Iteracoes</span>
 		</div>
 		<input type="number" class="var form-control" id='it' value='100'>
 	</div>
