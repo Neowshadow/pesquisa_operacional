@@ -206,7 +206,7 @@
 		},1000);
 		$('#btnSolu').remove();
 		if(result.iteracao.length>1 && check){
-			var bt = $('<button>',{'text':'Solução Direta','id':'btnSolu','class':'btn btn-primary float-right'}).bind('click',function(){
+			var bt = $('<button>',{'text':'Solucao Direta','id':'btnSolu','class':'btn btn-primary float-right'}).bind('click',function(){
 				$('#btnAnte').remove();
 				$('#btnProx').remove();
 				$('#btnAnalise').remove();			
@@ -227,7 +227,7 @@
 			}
 		}
 		if(check){
-			var ilimitada = $('<p>').append($('<b>').text('Solução Ilimitada'));
+			var ilimitada = $('<p>').append($('<b>').text('Solucao Ilimitada'));
 			$('#inicio').append(ilimitada);
 			var head = $('<thead>',{'id':'thResolucao'});
 			for(k in result.iteracao[0].tabela[0]){
@@ -330,9 +330,9 @@
 				$('#divResolucao').append(center.append(btnAnalise));
 				
 				if(result.minmax)
-					$('#final').append($('<p>').append(document.createTextNode('Solução ótima é Z = '+(s.funcao.result))));
+					$('#final').append($('<p>').append(document.createTextNode('Solucao ótima e Z = '+(s.funcao.result))));
 				else
-					$('#final').append($('<p>').append(document.createTextNode('Solução ótima é Z = '+(-s.funcao.result))));
+					$('#final').append($('<p>').append(document.createTextNode('Solucao ótima e Z = '+(-s.funcao.result))));
 				result.variaveis_basicas.forEach(function(obj,idx){
 					var b = 0;
 					result.iteracao[i].tabela.forEach(function(item,idx){
@@ -372,7 +372,7 @@
 		head.append($('<th>',{'text':'Variavel'}));
 		head.append($('<th>',{'text':'Valor Inicial'}));
 		head.append($('<th>',{'text':'Valor Final'}));
-		head.append($('<th>',{'text':'Preço Sombra'}));
+		head.append($('<th>',{'text':'Preco Sombra'}));
 		head.append($('<th>',{'text':'Maximo'}));
 		head.append($('<th>',{'text':'Minimo'}));
 		$('table#tbAnalise').append(head);
