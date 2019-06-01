@@ -9,8 +9,6 @@ O problema da mochila (em inglês, Knapsack problem) é um problema de optimiza�
 
 O algoritmo de resolução do problema da mochila é um algoritmo de programação dinâmica limitado, isto é, para um problema da mochila 0/1 onde um item é inserido uma ou zero vezes na mochila. Sua complexidade é de um tempo O(*nW*) onde *n* é o número de itens e *W* a capacidade da mochila
 
-## Nota de realease a ser publicado
-
 ### Simplex
 
 - Algoritmo Simplex para problemas de maximização.
