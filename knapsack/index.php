@@ -3,6 +3,8 @@
 
 
 <div id='main' class='content container'>
+	<button class='btn btn-primary' onclick='location.href=../' style='padding:10px 0px 20px 0px'>Voltar para a Pagina Inicial</button>
+	
 	<div>
 		<div class='row'><h3>Problema da Mochila</h3></div>
 		
