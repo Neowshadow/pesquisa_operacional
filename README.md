@@ -11,14 +11,14 @@ O algoritmo de resolução do problema da mochila é um algoritmo de programaç�
 
 ## Nota de realease a ser publicado
 
-###Simplex
+### Simplex
 
 - Algoritmo Simplex para problemas de maximização.
 - Algoritmo Simplex para problemas de minimização.
-- É exibido o passo a passo das tabelas geradas pelo método Simplex
+- Exibição passo a passo das tabelas geradas pelo método Simplex.
 - Tabela de Sensibilidade.
 
-###Mochila
+### Mochila
 
 - Apreentação da solução, dos itens a serem considerados e a tabela de cálculo.
 
