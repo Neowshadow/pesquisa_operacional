@@ -9,9 +9,9 @@
 <div id='main' class='content container'>
 	
 	<div class="card">
-		<div class="card-body">
+		<div class="card-body" style='top:50%'>
 		<center>
-			<div class='row'><h3>Pesquisa Operacional</h3></div>
+			<h3>Pesquisa Operacional</h3>
 			<button class='btn btn-primary' onclick='location.href="./simplex"'>Algoritmo Simplex</button>
 			<button class='btn btn-primary' onclick='location.href="./knapsack"'>Problema da Mochila</button>
 		<center>
