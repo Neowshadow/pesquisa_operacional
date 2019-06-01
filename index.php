@@ -10,10 +10,11 @@
 	
 	<div class="card">
 		<div class="card-body">
-		
+		<center>
 			<div class='row'><h3>Pesquisa Operacional</h3></div>
 			<button class='btn btn-primary' onclick='location.href="./simplex"'>Algoritmo Simplex</button>
 			<button class='btn btn-primary' onclick='location.href="./knapsack"'>Problema da Mochila</button>
+		<center>
 		</div>
 	</div>
 
