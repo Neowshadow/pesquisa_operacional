@@ -8,8 +8,8 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <div id='main' class='content container'>
 	
-	<div class="card">
-		<div class="card-body" style='top:50%'>
+	<div class="card" style='margin-top:10%'>
+		<div class="card-body" >
 		<center>
 			<h3>Pesquisa Operacional</h3>
 			<button class='btn btn-primary' onclick='location.href="./simplex"'>Algoritmo Simplex</button>
