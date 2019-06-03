@@ -1,4 +1,5 @@
 <head>
+<meta charset="UTF-8">
 <title>
 	Pesquisa Operacional JS
 </title>

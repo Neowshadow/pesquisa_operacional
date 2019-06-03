@@ -1,4 +1,5 @@
 <head>
+<meta charset="UTF-8">
 <title>
 	Pesquisa Operacional JS - Simplex
 </title>
@@ -7,12 +8,12 @@
 <link rel='stylesheet' type='text/css' href='../bootstrap-4.3.1-dist/css/bootstrap.css'></link>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <div id='main' class='content container'>
-	<button class='btn btn-primary' onclick='location.href="../"' style='margin:10px 0px 20px 0px'>Voltar para a Pagina Inicial</button>
+	<button class='btn btn-primary' onclick='location.href="../"' style='margin:10px 0px 20px 0px'>Voltar para a Página Inicial</button>
 	
 	<div>
-		<div class='row'><h3>Funcao Objetiva</h3></div>
-		<button class='btn btn-primary' onclick='addVariavel()'>Adicionar Variavel</button>
-		<button class='btn btn-primary' onclick='removeVariavel()'>Remover Variavel</button>
+		<div class='row'><h3>Função Objetiva</h3></div>
+		<button class='btn btn-primary' onclick='addVariavel()'>Adicionar Variável</button>
+		<button class='btn btn-primary' onclick='removeVariavel()'>Remover Variável</button>
 		<div class='row' style='padding:10px'>
 			<div id='funcao' class='fo row'>
 				<div class="input input-group mb-1 col">
@@ -35,10 +36,10 @@
 	</div>
 	<hr>
 	<div>
-		<div class='row'><h3>Restricoes</h3></div>
+		<div class='row'><h3>Restrições</h3></div>
 
-		<button class='btn btn-primary' onclick='addRestricao()'>Adicionar Restricao</button>
-		<button class='btn btn-primary'onclick='removeRestricao()'>Remover Restricao</button>
+		<button class='btn btn-primary' onclick='addRestricao()'>Adicionar Restricão</button>
+		<button class='btn btn-primary'onclick='removeRestricao()'>Remover Restricão</button>
 
 		<div id='restricoes' class='res row' style='padding:10px'>
 			<div class='restricao row'>
@@ -72,7 +73,7 @@
 	<div class='row'>
 	<div class="input-group mb-1 col-3">
 		<div class="input-group-prepend">
-			<span class="input-group-text">Maximo de Iteracoes</span>
+			<span class="input-group-text">Máximo de Iterações</span>
 		</div>
 		<input type="number" class="var form-control" id='it' value='100'>
 	</div>
@@ -213,7 +214,7 @@
 		},1000);
 		$('#btnSolu').remove();
 		if(result.iteracao.length>1 && check){
-			var bt = $('<button>',{'text':'Solucao Direta','id':'btnSolu','class':'btn btn-primary float-right'}).bind('click',function(){
+			var bt = $('<button>',{'text':'Solução Direta','id':'btnSolu','class':'btn btn-primary float-right'}).bind('click',function(){
 				$('#btnAnte').remove();
 				$('#btnProx').remove();
 				$('#btnAnalise').remove();			
@@ -223,18 +224,18 @@
 		}
 	}
 	function resultado(i,s){
-		var check = false;
+		var check = true;
 		$('#inicio').children().remove();
 		$('#final').empty();
 		$('table#tbResolucao').text('');
 		var test = result.iteracao[result.iteracao.length-1].tabela[result.iteracao[0].tabela.length-1];
 		for(aux in result.iteracao[result.iteracao.length-1].tabela[result.iteracao[0].tabela.length-1]){
 			if(aux!='b' && aux!='base'){
-				if(test[aux]<0) check = true;
+				if(test[aux]>0) check = false;
 			}
 		}
 		if(check){
-			var ilimitada = $('<p>').append($('<b>').text('Solucao Ilimitada'));
+			var ilimitada = $('<p>').append($('<b>').text('Sem Solução'));
 			$('#inicio').append(ilimitada);
 			var head = $('<thead>',{'id':'thResolucao'});
 			for(k in result.iteracao[0].tabela[0]){
@@ -376,7 +377,7 @@
 	function analise(i){
 		$('table#tbAnalise').empty();
 		var head = $('<thead>',{'id':'thAnalise'});
-		head.append($('<th>',{'text':'Variavel'}));
+		head.append($('<th>',{'text':'Variável'}));
 		head.append($('<th>',{'text':'Valor Inicial'}));
 		head.append($('<th>',{'text':'Valor Final'}));
 		head.append($('<th>',{'text':'Preco Sombra'}));

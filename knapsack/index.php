@@ -1,4 +1,5 @@
 <head>
+<meta charset="UTF-8">
 <title>
 	Pesquisa Operacional JS - Problema da Mochila
 </title>
@@ -9,7 +10,7 @@
 
 
 <div id='main' class='content container'>
-	<button class='btn btn-primary' onclick='location.href="../"' style='margin:10px 0px 20px 0px'>Voltar para a Pagina Inicial</button>
+	<button class='btn btn-primary' onclick='location.href="../"' style='margin:10px 0px 20px 0px'>Voltar para a Página Inicial</button>
 	
 	<div>
 		<div class='row'><h3>Problema da Mochila</h3></div>
