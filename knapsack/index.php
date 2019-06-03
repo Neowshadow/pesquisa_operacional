@@ -1,5 +1,5 @@
+<?php header("Content-type: text/html; charset=iso-8859-1"); ?>
 <head>
-<meta http-equiv="Content-Language" content="pt-br">
 <title>
 	Pesquisa Operacional JS - Problema da Mochila
 </title>
