@@ -426,10 +426,10 @@
 					row.append($('<td>',{'text':max}));
 				else
 					row.append($('<td>',{'text':Infinity}));
-				if(min!=0)
+				// if(min!=0)
 					row.append($('<td>',{'text':min}));
-				else
-					row.append($('<td>',{'text':0}));
+				// else
+					// row.append($('<td>',{'text':0}));
 			body.append(row);
 		});
 		var row = $('<tr>',{'id':'Z_'});
