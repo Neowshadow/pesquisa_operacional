@@ -1,5 +1,5 @@
-﻿<head>
-<meta http-equiv="Content-Language" content="pt-br">
+<head>
+<!--<meta http-equiv="Content-Language" content="pt-br">-->
 <meta charset='UTF-8'>
 <title>
 	Pesquisa Operacional JS - Simplex
