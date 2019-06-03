@@ -1,5 +1,5 @@
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="Content-Language" content="pt-br">
 <title>
 	Pesquisa Operacional JS - Simplex
 </title>
@@ -224,14 +224,14 @@
 		}
 	}
 	function resultado(i,s){
-		var check = true;
+		var check = false;
 		$('#inicio').children().remove();
 		$('#final').empty();
 		$('table#tbResolucao').text('');
 		var test = result.iteracao[result.iteracao.length-1].tabela[result.iteracao[0].tabela.length-1];
 		for(aux in result.iteracao[result.iteracao.length-1].tabela[result.iteracao[0].tabela.length-1]){
 			if(aux!='b' && aux!='base'){
-				if(test[aux]>0) check = false;
+				if(test[aux]<0) check = true;
 			}
 		}
 		if(check){

@@ -1,5 +1,5 @@
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="Content-Language" content="pt-br">
 <title>
 	Pesquisa Operacional JS
 </title>
