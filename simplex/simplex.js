@@ -339,7 +339,7 @@ Simplex.prototype.execute = function(iteracao,opcao){
 	var linha = -1;
 	for(var item in re){
 		
-		if(re[item].result / re[item].variaveis[coluna].valor<lowest){
+		if(re[item].result / re[item].variaveis[coluna].valor<lowest && re[item].result / re[item].variaveis[coluna].valor>0){
 			lowest = re[item].result / re[item].variaveis[coluna].valor;
 			linha = item;
 		}

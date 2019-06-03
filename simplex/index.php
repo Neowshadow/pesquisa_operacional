@@ -429,7 +429,7 @@
 				if(min!=0)
 					row.append($('<td>',{'text':min}));
 				else
-					row.append($('<td>',{'text':Infinity}));
+					row.append($('<td>',{'text':0}));
 			body.append(row);
 		});
 		var row = $('<tr>',{'id':'Z_'});
