@@ -1,6 +1,5 @@
+<?php header("Content-type: text/html; charset=utf-8"); ?>
 <head>
-<!--<meta http-equiv="Content-Language" content="pt-br">-->
-<meta charset='UTF-8'>
 <title>
 	Pesquisa Operacional JS - Simplex
 </title>
