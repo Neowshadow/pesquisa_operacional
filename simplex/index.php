@@ -1,4 +1,4 @@
-<?php header("Content-type: text/html; charset=utf-8"); ?>
+<?php header("Content-type: text/html; charset=iso-8859-1"); ?>
 <head>
 <title>
 	Pesquisa Operacional JS - Simplex
