@@ -381,8 +381,8 @@
 		head.append($('<th>',{'text':'Valor Inicial'}));
 		head.append($('<th>',{'text':'Valor Final'}));
 		head.append($('<th>',{'text':'Preco Sombra'}));
-		head.append($('<th>',{'text':'Maximo'}));
-		head.append($('<th>',{'text':'Minimo'}));
+		head.append($('<th>',{'text':'Máximo'}));
+		head.append($('<th>',{'text':'Mínimo'}));
 		$('table#tbAnalise').append(head);
 		var body = $('<tbody>');
 		result.variaveis_basicas.forEach(function(obj){
